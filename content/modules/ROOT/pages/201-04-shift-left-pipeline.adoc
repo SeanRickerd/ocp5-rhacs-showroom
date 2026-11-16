@@ -72,7 +72,7 @@ echo "${QUAY_URL}/${QUAY_USER}/python-alpine-golden:0.1"
 podman pull "${QUAY_URL}/${QUAY_USER}/python-alpine-golden:0.1"
 ----
 
-TIP: The pull should complete without `unauthorized` or `manifest unknown`. If `QUAY_URL` is empty, re-run lab setup or `source ~/.acs-roadshow/env`.
+TIP: The pull should complete without `unauthorized` or `manifest unknown`. If the variables are empty, re-run lab setup or `source ~/.acs-roadshow/env`.
 ====
 
 .Import python-alpine-golden into this project
@@ -88,7 +88,7 @@ oc import-image python-alpine-golden:0.1 \
   --confirm --insecure -n 201-04-s-pipeline
 ----
 
-TIP: `imagestreamtag.image.openshift.io/python-alpine-golden:0.1 imported`. If this fails with unauthorized, make the Quay repository public and retry.
+TIP: `imagestreamtag.image.openshift.io/python-alpine-golden:0.1 imported`. If this fails with invalid reference format, ensure QUAY_URL and QUAY_USER are set.
 ====
 
 .Create ServiceAccount pipeline
