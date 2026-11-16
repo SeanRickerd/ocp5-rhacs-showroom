@@ -3,6 +3,7 @@
 :skills: Tekton, Image Scanning, Signing, Admission Gating
 :labid: LAB-201-04
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~25 minutes
@@ -10,7 +11,7 @@
 == Overview
 Integrate security scanning and policy checks into pipelines.
 
-Build a Tekton pipeline that starts **FROM** the workshop golden Python base (`python-alpine-golden:0.1` in Quay — already pulled and pushed by `setup/lab-environment.sh`), then scans, gates, and signs the result and deploys by digest.
+Build a Tekton pipeline that starts **FROM** the workshop golden Python base (`python-alpine-golden:0.1` in Quay — already pushed by GitOps), then scans, gates, and signs the result and deploys by digest.
 
 == Why it matters
 Unsigned, unscanned images reach production when security sits after deploy. Pipelines that build, scan, gate, and sign shrink the window where attackers swap in a poisoned tag. Starting FROM an approved golden base — not `docker.io/python` at build time — is the other half of that story: the cluster only consumes a base you already scanned and parked in Quay.
@@ -29,10 +30,10 @@ Build a Tekton path FROM `python-alpine-golden` that refuses unscanned or unsign
 
 * OpenShift Pipelines (Tekton) Operator installed
 * Cosign installed locally, or simulate signing in the pipeline tasks
-* Lab setup already ran (`source ~/.bashrc` or `source ~/.acs-roadshow/env`): `QUAY_URL`, `QUAY_USER`, and the golden image `${QUAY_URL}/${QUAY_USER}/python-alpine-golden:0.1`
-* The `python-alpine-golden` repository is **public** in Quay (same Settings path as `frontend` in xref:acs-00-setup-install-navigation.adoc#navigating-the-registry[acs-00]) so the cluster can import it
+* Lab setup already ran, and the golden image is {quay_url}/{quay_user}/python-alpine-golden:0.1
+* The `python-alpine-golden` repository is **public** in Quay (same API call as `frontend` in xref:acs-00-setup-install-navigation.adoc#navigating-the-registry[acs-00]) so the cluster can import it
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 .Install podman
 [%collapsible]
@@ -67,9 +68,8 @@ This is the approved base from setup — not Docker Hub at pipeline time. Pull p
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-source ~/.acs-roadshow/env 2>/dev/null || source ~/.bashrc
-echo "${QUAY_URL}/${QUAY_USER}/python-alpine-golden:0.1"
-podman pull "${QUAY_URL}/${QUAY_USER}/python-alpine-golden:0.1"
+echo "{quay_url}/{quay_user}/python-alpine-golden:0.1"
+podman pull "{quay_url}/{quay_user}/python-alpine-golden:0.1"
 ----
 
 TIP: The pull should complete without `unauthorized` or `manifest unknown`. If the variables are empty, re-run lab setup or `source ~/.acs-roadshow/env`.
@@ -82,9 +82,8 @@ Copy the golden image into the project ImageStream so the pipeline FROM line sta
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-source ~/.acs-roadshow/env 2>/dev/null || source ~/.bashrc
 oc import-image python-alpine-golden:0.1 \
-  --from="${QUAY_URL}/${QUAY_USER}/python-alpine-golden:0.1" \
+  --from="{quay_url}/{quay_user}/python-alpine-golden:0.1" \
   --confirm --insecure -n 201-04-s-pipeline
 ----
 

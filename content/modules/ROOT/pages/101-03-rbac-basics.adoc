@@ -5,6 +5,7 @@
 :audit-evidence: "'oc auth can-i' shows view read-only, edit mutates without RBAC changes, admin adds RoleBinding and secret management."
 :cis-mitre-codes: '{"cisMapping":{"primary":["5.1.1"],"supporting":["5.1.2","5.1.5","5.1.8"]},"mitre":{"techniques":["T1078","T1098"],"tactics":["TA0001","TA0003","TA0004"],"mitigations":["M1026","M1012","M1018"]}}'
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~15 minutes
@@ -128,7 +129,7 @@ IMPORTANT: Result is `yes` — a pod using `app-sa` could enumerate Secrets afte
 == Your Mission
 Stop the same attack without blocking legitimate work. Remove the over-permissioned grants, start from `view`, open only the verbs the team needs (`edit` for app changes), and prove each attack step now fails. Keep the default ServiceAccount powerless until you deliberately bind it.
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 .Delete the broken RoleBindings and foothold Deployment
 [%collapsible]

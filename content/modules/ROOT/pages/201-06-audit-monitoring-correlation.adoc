@@ -3,6 +3,7 @@
 :skills: Audit Logs, Correlation, Monitoring, Threat Detection, Splunk, ClusterLogForwarder
 :labid: LAB-201-06
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~30 minutes
@@ -29,7 +30,7 @@ Deploy Splunk as the lab SIEM, forward kube-apiserver audit to it, generate a su
 * `jq` and `curl` on the bastion
 * Storage for Splunk PVCs (about 20Gi + 5Gi)
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 === Part A: SIEM and audit forwarding
 
@@ -42,7 +43,7 @@ Scripts live in this roadshow repo (vendored from https://github.com/mfosterrox/
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-cd ~/openshift-security-roadshow/setup/splunk-lab
+cd ~/ocp5-rhacs-showroom/setup/splunk-lab
 SPLUNK_RUN_CLEAN_FIRST=false ./install.sh
 ----
 
@@ -129,7 +130,7 @@ ClusterLogForwarder collectors can take several minutes. This copies the last li
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-cd ~/openshift-security-roadshow/setup/splunk-lab
+cd ~/ocp5-rhacs-showroom/setup/splunk-lab
 ./push-recent-audit.sh
 ----
 

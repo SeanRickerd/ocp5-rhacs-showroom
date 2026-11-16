@@ -3,6 +3,7 @@
 :skills: RHACM Policy, ConfigurationPolicy, NIST 800-53, DISA STIG, DoD CC SRG
 :labid: LAB-201-10
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~25 minutes
@@ -52,7 +53,7 @@ RHACM Policy annotations (`standards`, `categories`, `controls`) are what the Go
 * A `ManagedCluster` (hub is usually `local-cluster`)
 * Cluster-admin on the hub
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 === Part A: Hub inventory and placement
 
@@ -79,7 +80,7 @@ Placement in a custom namespace selects **zero** clusters until a `ManagedCluste
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-cd ~/openshift-security-roadshow/setup/acm-lab
+cd ~/ocp5-rhacs-showroom/setup/acm-lab
 chmod +x bind-clusterset.sh
 ./bind-clusterset.sh
 ----
@@ -98,7 +99,7 @@ YAML lives in this roadshow repo (`setup/acm-lab/policy-dod-ocp-baseline.yaml`).
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-oc apply -f ~/openshift-security-roadshow/setup/acm-lab/policy-dod-ocp-baseline.yaml
+oc apply -f ~/ocp5-rhacs-showroom/setup/acm-lab/policy-dod-ocp-baseline.yaml
 ----
 
 TIP: `policy.policy.open-cluster-management.io/policy-dod-ocp-baseline created` (and Placement / PlacementBinding).

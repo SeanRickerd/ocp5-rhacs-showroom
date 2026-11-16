@@ -3,6 +3,7 @@
 :skills: Splunk, ClusterLogForwarder, RHACS Violations, Timeline Reconstruction
 :labid: LAB-301-05
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~25 minutes
@@ -31,7 +32,7 @@ Confirm Splunk is up (reinstall if 201-07 cleanup tore it down), generate an exe
 * RHACS Central (optional notifier into Splunk if `ROX_API_TOKEN` was set at install)
 * Something to hunt: leftover `301-04-runtime` probe, or a sleeper in this lab
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 === Part A: SIEM still there?
 
@@ -47,7 +48,7 @@ If the route is missing (typical after xref:201-07-compliance-tailoring.adoc[201
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-cd ~/openshift-security-roadshow/setup/splunk-lab
+cd ~/ocp5-rhacs-showroom/setup/splunk-lab
 SPLUNK_RUN_CLEAN_FIRST=false ./install.sh
 ----
 
@@ -93,7 +94,7 @@ TIP: Note the UTC timestamp. If ACS runtime enforce is still on, the probe pod m
 ====
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-cd ~/openshift-security-roadshow/setup/splunk-lab
+cd ~/ocp5-rhacs-showroom/setup/splunk-lab
 chmod +x push-recent-audit.sh
 ./push-recent-audit.sh
 ----

@@ -3,6 +3,7 @@
 :skills: Digest Pinning, Image Signatures, SBOM Evidence, Admission
 :labid: LAB-301-06
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~25 minutes
@@ -31,7 +32,7 @@ Inspect the UBI Python image, apply a digest-only ValidatingAdmissionPolicy to a
 * Pull access to `registry.access.redhat.com/ubi9/python-311`
 * Optional: RHACS image scan UI; optional: `cosign` / TAS from TSSC-00
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 === Part A: Provenance of the catalog image
 
@@ -76,7 +77,7 @@ Bindings match `digest-pin-enforce=true` only—not cluster-wide.
 ----
 oc new-project 301-06-supply || oc project 301-06-supply
 oc label ns 301-06-supply digest-pin-enforce=true --overwrite
-oc apply -f ~/openshift-security-roadshow/setup/supply-chain-lab/require-digest-vap.yaml
+oc apply -f ~/ocp5-rhacs-showroom/setup/supply-chain-lab/require-digest-vap.yaml
 ----
 
 TIP: `validatingadmissionpolicy.admissionregistration.k8s.io/require-digest-deployments` created.

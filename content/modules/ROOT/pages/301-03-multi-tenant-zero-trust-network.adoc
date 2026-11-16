@@ -3,6 +3,7 @@
 :skills: AdminNetworkPolicy, OVN-Kubernetes, Tenant NetworkPolicy, Zero-Trust
 :labid: LAB-301-03
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~30 minutes
@@ -33,7 +34,7 @@ Prove A can reach B, apply labeled ANPs (allow DNS, allow intra-namespace, deny 
 * CRD `adminnetworkpolicies.policy.networking.k8s.io`
 * Cluster-admin for ANP; tenant tests use `--as`
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 === Part A: Open path (101-05 reminder)
 
@@ -97,7 +98,7 @@ Priority: 10 DNS, 20/21 intra-namespace, 50 deny other workshop tenants. Lower n
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-cd ~/openshift-security-roadshow/setup/anp-lab
+cd ~/ocp5-rhacs-showroom/setup/anp-lab
 oc apply -f allow-dns.yaml
 oc apply -f allow-intra-tenant.yaml
 oc apply -f deny-cross-tenant.yaml

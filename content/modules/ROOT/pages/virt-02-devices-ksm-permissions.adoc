@@ -3,6 +3,7 @@
 :skills: permittedHostDevices, KSM, virt-handler Permissions
 :labid: LAB-VIRT-02
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~25 minutes
@@ -27,14 +28,11 @@ List permitted host devices (expect empty), confirm KSM is not configured, and `
 
 === Prerequisites
 
-* xref:virt-01-feature-gates-and-trusted-config.adoc[virt-01] complete
 * Permission to get HCO and to `oc exec` into `virt-handler` in `openshift-cnv`
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
-=== Control: Restrict GPU and USB pass-through to approved devices
-
-**Level:** 1
+=== Control: Restrict GPU and USB pass-through to approved devices (Level 1 Control)
 
 `spec.permittedHostDevices` on HCO is the cluster allow-list for mediated devices, PCI devices, and USB devices that VMs may consume.
 
@@ -49,7 +47,7 @@ Click each step only if you need a hint.
 ====
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-oc get hyperconverged kubevirt-hyperconverged -n openshift-cnv \
+oc get hyperconvergeds.v1beta1.hco.kubevirt.io kubevirt-hyperconverged -n openshift-cnv \
   -o jsonpath='{.spec.permittedHostDevices}{"\n"}'
 ----
 
@@ -63,25 +61,21 @@ Remove a single PCI allow-list entry by index (example: index 0), or remove the 
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-# Example: drop PCI allow-list index 0 (only if the audit listed devices you do not want)
-# oc patch hyperconverged kubevirt-hyperconverged -n openshift-cnv --type='json' -p='[
-#   {"op": "remove", "path": "/spec/permittedHostDevices/pciHostDevices/0"}
-# ]'
-
-# Remove all permitted devices (only if the entire list is unjustified)
-# oc patch hyperconverged kubevirt-hyperconverged -n openshift-cnv --type='json' -p='[
-#   {"op": "remove", "path": "/spec/permittedHostDevices"}
-# ]'
+Example: drop PCI allow-list index 0 (only if the audit listed devices you do not want)
+oc patch hyperconvergeds.v1beta1.hco.kubevirt.io kubevirt-hyperconverged -n openshift-cnv --type='json' -p='[
+  {"op": "remove", "path": "/spec/permittedHostDevices/pciHostDevices/0"}
+]'
 ----
 
-The commands are commented so a shared lab does not drop a device someone else needs. Uncomment on a cluster you own after you have recorded the current JSON.
+[source,bash,subs="+macros,+attributes",role=execute]
+----
+Remove all permitted devices (only if the entire list is unjustified)
+oc patch hyperconvergeds.v1beta1.hco.kubevirt.io kubevirt-hyperconverged -n openshift-cnv --type='json' -p='[
+  {"op": "remove", "path": "/spec/permittedHostDevices"}
+]'
+----
 
-TIP: Re-run the audit. Empty is the hardened state.
-====
-
-=== Control: Make sure KSM is disabled
-
-**Level:** 2
+=== Control: Make sure KSM is disabled (Level 2 Control)
 
 Kernel Samepage Merging shares identical memory pages across VMs on a host. It can save RAM. It also creates a cross-VM memory side channel.
 
@@ -96,7 +90,7 @@ Kernel Samepage Merging shares identical memory pages across VMs on a host. It c
 ====
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-oc get hyperconverged kubevirt-hyperconverged -n openshift-cnv \
+oc get hyperconvergeds.v1beta1.hco.kubevirt.io kubevirt-hyperconverged -n openshift-cnv \
   -o jsonpath='{.spec.ksmConfiguration}{"\n"}'
 ----
 
@@ -110,7 +104,7 @@ Edit HCO and disable KSM (field names vary slightly by version; set the configur
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-oc edit hyperconverged kubevirt-hyperconverged -n openshift-cnv
+oc edit hyperconvergeds.v1beta1.hco.kubevirt.io kubevirt-hyperconverged -n openshift-cnv
 ----
 
 Set `spec.ksmConfiguration` so the feature is off, save, then re-run the audit. Prefer `oc edit` here so you see the live schema instead of guessing a jsonpatch path.
@@ -118,9 +112,7 @@ Set `spec.ksmConfiguration` so the feature is off, save, then re-run the audit. 
 TIP: Do not enable KSM in this lab to "try density."
 ====
 
-=== Control: kubevirt seccomp profile mode 700
-
-**Level:** 1
+=== Control: kubevirt seccomp profile mode 700 (Level 1 Control)
 
 If the KubeVirt seccomp feature is enabled, virt-handler places `kubevirt.json` under the kubelet seccomp directory. Mode `700` means only root on the node can change the syscall profile for virt-launcher.
 
@@ -163,9 +155,7 @@ Only if a file exists and mode is weaker than 700:
 TIP: Re-run the loop. Modes should be `700`.
 ====
 
-=== Control: kubevirt-private directory mode 755
-
-**Level:** 1
+=== Control: kubevirt-private directory mode 755 (Level 1 Control)
 
 `/var/run/kubevirt-private` is where virt-handler caches VM configuration. Mode `755` (or stricter) keeps that cache to root and the virt-handler process.
 
@@ -212,11 +202,9 @@ What breaks without this:
 * Shared pages across tenant VMs
 * A rewritten seccomp profile for every virt-launcher on the node
 
-NOTE: Next is xref:virt-03-virtualization-rbac.adoc[virt-03] -- who can migrate, exec, open VNC, and edit cluster-wide instance types.
-
 == Cleanup
 
-Progress only. Do not delete virt-handler pods.
+Progress only. Command does not delete the virt-handler pods.
 
 :lab-cleanup-module: virt-02
 include::partial$lab-cleanup.adoc[]

@@ -5,6 +5,7 @@
 :audit-evidence: "HTTP curl succeeds; cert-manager Certificate becomes Ready; HTTPS curl with the lab CA succeeds; HTTP is redirected to HTTPS."
 :cis-mitre-codes: '{"cisMapping":{"primary":["1.2.26"]},"mitre":{"techniques":["T1040"],"tactics":["TA0006"],"mitigations":["M1041"]}}'
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~20 minutes
@@ -27,7 +28,7 @@ Plain HTTP leaves credentials, cookies, and API bodies open on the wire. TLS enc
 == Your Mission
 Stand up an app, prove HTTP is readable, issue a certificate with cert-manager, then hit the same hostname again over HTTPS. Complete *Part A*, then *Part B*, then *Part C*.
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 === Part A: Start with an application
 Deploy a UBI httpd app, expose it on HTTP, and capture the Route hostname. That hostname is the name you will put on the certificate.
@@ -411,6 +412,8 @@ What breaks without this:
 IMPORTANT: HTTPS with redirect on Routes, cert-manager (or ACME) for issuance, a CA that matches your trust model, and a rotation path (cert-manager, Vault PKI, or ZTWIM depending on north-south vs east-west).
 
 NOTE: edge TLS is fine when the cluster internal path is trusted; re-encrypt or passthrough when you need end-to-end or app-owned certs. Do not use `-k` in production.
+
+This track is complete. Return to the xref:index.adoc[home page] to choose the next track.
 
 image::https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXdiMmFwaTNrbW02cTNod3BmaTh2aGRrdDJsc3d4NHpqNXY5ZzkwNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/073QSCJf2tIbtWjZpb/giphy.gif[link=self, window=blank, width=100%, class="center"]
 

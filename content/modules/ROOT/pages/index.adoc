@@ -9,24 +9,42 @@ This course offers hands-on experience with Kubernetes-native security on Red Ha
 * *This page is home* — Credentials and console links live here. Use the home button anytime you get lost.
 * *Navigate with the table of contents* — Modules are in the left table of contents, or use *Next* at the bottom of each page.
 * *Use consoles in Showroom, or open them in a new tab* — Keep this guide open. Prefer the console tabs on the right of the lab UI. To open a link in a new browser tab: on a Mac, *<cmd> click*; on Windows/Linux, *<ctrl> click* or right-click → "Open in new tab."
-* *Use the bastion* — Run `oc`, `roxctl`, and `podman` on the RHEL bastion.
-* *Cluster services come from GitOps* — RHACS, Quay, GitOps, Compliance Operator, and the vulnerable demo apps are already synced by Argo CD.
-* *Run the bastion setup script* — That step configures your CLI token, workshop images in Quay, and TSSC CLIs (`cosign`, `oc-mirror`, `ec`).
-* *Work the catalog in order, or jump in* — 101 → 201 → 301, then the product deep-dives (RHACS, Virtualization, Lightwell TSSC).
+* *Use the terminal tab for command line work* — Run `oc`, `roxctl`, and `podman` on the RHEL bastion.
+* *Cluster setup and services are managed by GitOps* — RHACS, Quay, GitOps, Compliance Operator, and the vulnerable demo apps are already synced by Argo CD. Deleting resources by accident is no problem, as they will be recreated by GitOps.
+* *Start any track from this page.* The tracks are independent: 101, 201, 301, then RHACS, Lightwell TSSC, and Virtualization. When you finish a track, *Next* brings you back here.
+
+IMPORTANT: Make sure to run the setup script below! OpenShift Lightspeed is already configured with the platform model. The script saves your CLI credentials and installs the TSSC CLIs (`cosign`, `oc-mirror`, `ec`, and `mvn`).
 
 [[environment-setup]]
 == Environment setup
 
-Cluster-wide install (RHACS, Quay, GitOps, Compliance Operator, demo apps) is already applied by OpenShift GitOps. From the *Terminal* tab, run the remaining bastion steps: RHACS CLI access, workshop images, and TSSC CLIs (`cosign`, `oc-mirror`, `ec`).
+The following script installs the TSSC CLIs (`cosign`, `oc-mirror`, `ec`, and `mvn`) and reads Quay and RHACS credentials into your shell. OpenShift Lightspeed is already configured with the platform model.
 
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
 git clone https://github.com/rhpds/ocp5-rhacs-showroom.git
 cd ocp5-rhacs-showroom
-bash setup/lab-environment.sh \
-  --quay-user {quay_admin_username} \
-  --quay-password '{quay_admin_password}'
+bash setup/lab-environment.sh
 source ~/.bashrc
+----
+
+[.console-output]
+[source,bash,subs="+macros,+attributes"]
+----
+[#####################-------] 6/8  Configure RHACS CLI variables
+[############################] 8/8  Lab environment setup complete
+
+================================================================
+  SUCCESS: Lab environment setup completed successfully
+================================================================
+
+  ✓ Quay credentials read from the cluster
+  ✓ RHACS CLI ready (ROX_CENTRAL_ADDRESS / ROX_API_TOKEN saved)
+  ✓ TSSC CLIs on PATH (cosign, oc-mirror, ec in ~/.local/bin; mvn from the Maven RPM)
+  ✓ Env file: /home/lab-user/.acs-roadshow/env
+  ✓ Detailed log: /home/lab-user/.acs-roadshow/lab-environment-20261014-174611.log
+
+[lab-user@bastion ocp5-rhacs-showroom]$ 
 ----
 
 TIP: Feel free to sign into the consoles while the lab environment script runs in the background.
@@ -45,7 +63,6 @@ TIP: Using the Showroom allows you to move through the console tabs while you wo
 [cols="1,1"]
 |===
 |Console URL| {openshift_cluster_console_url}
-|API URL| {openshift_api_server_url}
 |Username| {openshift_cluster_admin_username}
 |Password| {openshift_cluster_admin_password}
 |===
@@ -137,7 +154,6 @@ Use the *Terminal* tab (or SSH) for CLI work (`oc`, `roxctl`, `podman`, `curl`, 
 * xref:basic-INDEX.adoc[101 Foundations] — OpenShift secure-by-default posture.
 * xref:intermediate-INDEX.adoc[201 Intermediate] — Hardening and shift-left.
 * xref:advanced-INDEX.adoc[301 Advanced] — Enterprise and zero trust.
-* xref:acs-INDEX.adoc[Advanced Cluster Security (RHACS)] — Setup, vulnerabilities, policy and risk, CI/CD gates, compliance, notifications and API, network and runtime, installation, and xref:acs.adoc[ACS 5 capabilities] (VM scanning, file activity monitoring, MCP, and init containers).
-* xref:virt-INDEX.adoc[OpenShift Virtualization Security] — HyperConverged feature gates, virt RBAC, VM and storage isolation, VM networking, and host firmware/kernel controls from the OpenShift Virtualization hardening guide.
-* xref:tssc-INDEX.adoc[Lightwell and Red Hat Trusted Software Supply Chain (TSSC)] — Hummingbird, Lightwell remediations, hermetic build, keyless signing, GitOps admission, and TPA/ACS compliance.
-
+* xref:acs-INDEX.adoc[Advanced Cluster Security (RHACS)] — Setup, vulnerabilities, policy and risk, CI/CD gates, compliance, notifications and API, network and runtime, installation, and xref:acs.adoc[ACS 5.0 capabilities] (VM scanning, file activity monitoring, MCP, and init containers).
+* xref:tssc-INDEX.adoc[Secure Software Supply Chain with Red HatLightwell ] — Hummingbird, Lightwell remediations, hermetic build, keyless signing, GitOps admission, and TPA/ACS compliance.
+* xref:virt-INDEX.adoc[OpenShift Virtualization Hardening Modules] — HyperConverged feature gates, virt RBAC, VM and storage isolation, VM networking, and host firmware/kernel controls from the link:https://access.redhat.com/sites/default/files/attachments/rh-openshift-virtualization-hardening-guide-detail-202512-en.pdf[Red Hat OpenShift Virtualization hardening guide^].

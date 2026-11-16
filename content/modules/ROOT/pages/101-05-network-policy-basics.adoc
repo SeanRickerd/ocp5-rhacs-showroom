@@ -5,6 +5,7 @@
 :audit-evidence: "Default connectivity works; default-deny blocks both clients; allow policy restores access only for labeled allowed client (200 vs timeout)."
 :cis-mitre-codes: '{"cisMapping":{"primary":["5.3.2"]},"mitre":{"techniques":["T1046"],"tactics":["TA0007"],"mitigations":["M1030","M1042"]}}'
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~15 minutes
@@ -29,7 +30,7 @@ A foothold in any pod can scan sideways to databases and internal APIs when east
 
 *Your mission:* prove the open path exists, slam the door with default deny, then reopen only the client you trust.
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 .Create project 101-05-n-netpol-demo
 [%collapsible]

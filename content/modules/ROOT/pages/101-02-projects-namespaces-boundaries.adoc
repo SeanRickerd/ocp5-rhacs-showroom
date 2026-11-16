@@ -3,6 +3,7 @@
 :cis-summary: "Use OpenShift projects and namespaces as security boundaries for multi-tenancy and resource isolation."
 :mitre-summary: "Prevents unauthorized access and resource conflicts by establishing namespace-level security boundaries."
 :toc:
+:toclevels: 1
 :icons: font
 
 **Duration:** ~15 minutes
@@ -34,7 +35,7 @@ Clear project boundaries make ownership obvious and keep mistakes contained.
 == Your Mission
 Without project boundaries, one compromised identity or runaway workload can reach every tenant’s Secrets, CPU, and pods. Draw hard lines—labels, RBAC, and quotas—so a break-in stays trapped in one namespace instead of becoming a cluster-wide outage.
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 .Create project 101-02-demo
 [%collapsible]
@@ -168,7 +169,7 @@ Before you open the solution, verify your own work:
 
 === Solution (try yourself first)
 
-Click each step only if you need a hint.
+Click each step for the full solution.
 
 .Create project team-payments-dev
 [%collapsible]
